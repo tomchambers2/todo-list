@@ -77,6 +77,10 @@ export default function Home() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ taskTitle: input.trim(), existingTasks: state.tasks }),
       });
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.error || `Server error: ${res.status}`);
+      }
       const sortResult = await res.json();
 
       const dateInfo = dateInput

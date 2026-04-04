@@ -1,9 +1,13 @@
 import Anthropic from '@anthropic-ai/sdk';
 import { NextRequest, NextResponse } from 'next/server';
 
-const client = new Anthropic();
-
 export async function POST(request: NextRequest) {
+  const apiKey = process.env.ANTHROPIC_API_KEY;
+  if (!apiKey) {
+    return NextResponse.json({ error: 'ANTHROPIC_API_KEY not configured' }, { status: 500 });
+  }
+
+  const client = new Anthropic({ apiKey });
   const { taskTitle, existingTasks } = await request.json();
 
   const quickCount = existingTasks.filter((t: { category: string }) => t.category === 'quick').length;
