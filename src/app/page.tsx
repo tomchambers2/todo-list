@@ -119,7 +119,7 @@ export default function Home() {
       setDateInput('');
     } catch (err) {
       console.error('Sort failed:', err);
-      alert('Failed to sort task. Check API key configuration.');
+      alert(`Failed to sort task: ${err instanceof Error ? err.message : String(err)}`);
     }
     setSorting(false);
   };
