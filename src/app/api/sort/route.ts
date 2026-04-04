@@ -1,23 +1,22 @@
-import Anthropic from '@anthropic-ai/sdk';
+import OpenAI from 'openai';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
   try {
-    const apiKey = process.env.ANTHROPIC_API_KEY;
+    const apiKey = process.env.OPENAI_API_KEY;
     if (!apiKey) {
-      return NextResponse.json({ error: 'ANTHROPIC_API_KEY not configured' }, { status: 500 });
+      return NextResponse.json({ error: 'OPENAI_API_KEY not configured' }, { status: 500 });
     }
 
-    const client = new Anthropic({ apiKey });
+    const client = new OpenAI({ apiKey });
     const { taskTitle, existingTasks } = await request.json();
 
     const quickCount = existingTasks.filter((t: { category: string }) => t.category === 'quick').length;
     const mediumCount = existingTasks.filter((t: { category: string }) => t.category === 'medium').length;
     const tasksCount = existingTasks.filter((t: { category: string }) => t.category === 'tasks').length;
 
-    const message = await client.messages.create({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 500,
+    const completion = await client.chat.completions.create({
+      model: 'gpt-4o-mini',
       messages: [
         {
           role: 'user',
@@ -44,7 +43,7 @@ Respond in JSON only:
       ],
     });
 
-    const text = message.content[0].type === 'text' ? message.content[0].text : '';
+    const text = completion.choices[0].message.content || '';
     const jsonMatch = text.match(/\{[\s\S]*\}/);
     if (!jsonMatch) {
       return NextResponse.json({ error: 'Failed to parse AI response' }, { status: 500 });
