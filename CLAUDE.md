@@ -16,7 +16,7 @@ npm run test   # Run vitest tests
 ```
 
 ## Environment
-- `ANTHROPIC_API_KEY` - Required for AI sorting (set in .env.local or Vercel env vars)
+- `OPENAI_API_KEY` - Required for AI sorting (set in .env.local or Vercel env vars)
 
 ## Architecture
 - `src/lib/types.ts` - Type definitions
