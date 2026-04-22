@@ -9,27 +9,97 @@
   --color-accent: var(--accent);
   --color-accent-hover: var(--accent-hover);
   --color-success: var(--success);
-  --color-warning: var(--warning);
-  --color-danger: var(--danger);
   --color-muted: var(--muted);
+  --color-danger: var(--danger);
 }
 
 :root {
-  --background: #0a0a0a;
-  --foreground: #ededed;
-  --card: #141414;
-  --card-hover: #1a1a1a;
-  --border: #2a2a2a;
-  --accent: #3b82f6;
-  --accent-hover: #2563eb;
+  --background: #09090b;
+  --foreground: #fafafa;
+  --card: #18181b;
+  --card-hover: #1f1f23;
+  --border: #27272a;
+  --accent: #6366f1;
+  --accent-hover: #4f46e5;
   --success: #22c55e;
-  --warning: #f59e0b;
+  --muted: #71717a;
   --danger: #ef4444;
-  --muted: #737373;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family: -apple-system, 'SF Pro Display', 'Inter', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom checkbox animation */
+@keyframes checkmark {
+  0% { transform: scale(0); opacity: 0; }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.check-animate {
+  animation: checkmark 0.2s ease-out forwards;
+}
+
+/* Task enter animation */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.task-enter {
+  animation: slideIn 0.2s ease-out;
+}
+
+/* Task complete fade */
+@keyframes fadeComplete {
+  from { opacity: 1; }
+  to { opacity: 0.5; }
+}
+
+.task-complete {
+  animation: fadeComplete 0.3s ease-out forwards;
+}
+
+/* Smooth placeholder */
+input::placeholder {
+  color: var(--muted);
+  transition: opacity 0.2s;
+}
+
+input:focus::placeholder {
+  opacity: 0.5;
+}
+
+/* Focus ring */
+input:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--accent);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted);
 }
